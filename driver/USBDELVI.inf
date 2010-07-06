@@ -1,0 +1,59 @@
+; Installation inf for the Delcom USB Visual Indicator
+;
+; (c) Copyright 2005 Delcom Engineering
+; 03/19/2005
+
+
+
+[Version]
+Signature=$CHICAGO$
+Class        = USB
+Provider=%String0%
+DriverVer = 05/16/2005,3.1.0.0
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[Manufacturer]
+%String0%=Delcom
+
+[Delcom]
+%String2%=USBDELVI,USB\VID_0FC5&PID_1223
+
+[USBDELVI]
+CopyFiles=Common.CopyList
+AddReg=Common.AddReg
+
+[USBDELVI.NT]
+CopyFiles=Common.CopyList
+AddReg=Common.AddReg
+
+[USBDELVI.NT.Services]
+Addservice = USBDELVI, 0x00000002, Common.AddService
+
+[DestinationDirs]
+DefaultDestDir 		= 10, System32\drivers
+Common.CopyList       	= 10, System32\drivers
+
+[Common.CopyList]
+USBDELVI.sys
+
+[Common.AddReg]
+HKR,,DevLoader,0,*ntkern
+HKR,,NTMPDriver,0,USBDELVI.sys
+HKLM,System\Currentcontrolset\Services\Delcom\USBDELVI\Parameters,DebugLevel,1,00
+HKLM,System\Currentcontrolset\Services\Delcom\USBDELVI\Parameters,BootupTest,1,00
+
+
+[Common.AddService]
+DisplayName    = %String2%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\USBDELVI.sys
+LoadOrderGroup = Base
+
+
+[Strings]
+String0="Delcom Engineering"
+String2="Delcom USB Visual Indicator"

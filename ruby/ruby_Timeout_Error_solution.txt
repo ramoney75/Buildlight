@@ -1,0 +1,51 @@
+c:/ruby/lib/ruby/1.8/timeout.rb:54:in `rbuf_fill': execution expired
+(Timeout::Error)
+        from c:/ruby/lib/ruby/1.8/timeout.rb:56:in `timeout'
+        from c:/ruby/lib/ruby/1.8/timeout.rb:76:in `timeout'
+        from c:/ruby/lib/ruby/1.8/net/protocol.rb:132:in `rbuf_fill'
+        from c:/ruby/lib/ruby/1.8/net/protocol.rb:116:in `readuntil'
+        from c:/ruby/lib/ruby/1.8/net/protocol.rb:126:in `readline'
+        from c:/ruby/lib/ruby/1.8/net/http.rb:2017:in `read_status_line'
+        from c:/ruby/lib/ruby/1.8/net/http.rb:2006:in `read_new'
+        from c:/ruby/lib/ruby/1.8/net/http.rb:1047:in `request'
+        from put_client.rb:25:in `upload_file'
+        from c:/ruby/lib/ruby/1.8/net/http.rb:543:in `start'
+        from put_client.rb:21:in `upload_file'
+        from put_client.rb:31
+
+
+Re: Timeout errors using Net::HTTP on Windows
+Posted by Marcin Coles (marcincoles)
+on 01.05.2007 04:29
+
+Well, I'm no expert, and I certainly wasn't going to learn another
+language, so I decided to do some tests because this was a problem for
+me too.
+
+I went into protocol.rb, to the rbuf_fill method (where it actually
+starts the timeout thread).
+
+the code there was
+
+def rbuf_fill
+      timeout(@read_timeout)  {
+        @rbuf << @io.sysread(1024)
+      }
+end
+
+now timeout takes 2 parameters - a time in seconds(?) and an exception
+class to raise (defaults to Error).
+
+When I changed the code to the following, it started to work for me.
+New code:
+
+def rbuf_fill
+      timeout(@read_timeout,ProtocolError) {
+        @rbuf << @io.sysread(1024)
+      }
+end
+
+Obviously this is not exactly extensively tested - but an interesting
+results.
+
+Marcin
