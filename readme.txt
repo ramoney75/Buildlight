@@ -30,3 +30,9 @@ Any problems, feedback or suggestions, please let me know.
 Josh Price
 ThoughtWorks  |  Level 7  16 O'Connell Street  Sydney
 m: +61 415 366 251  |  yahooID: joshcprice
+
+Since Josh is no longer working for ThoughtWorks, feel free to contact me for any problems and suggestions (leaving Josh in this file for credits):
+
+Ramon Huisman
+Thoughtworks
+e: rhuisman@thoughtworks.com
