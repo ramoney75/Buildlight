@@ -14,6 +14,8 @@ while true
 
     projects = doc.xpath('//Projects/Project')
 	
+
+
 	now = Time.now.localtime.strftime('%d/%m/%Y %H:%M:%S')
     puts
 	puts "--- Current build status at #{now} ---"
